@@ -1,149 +1,61 @@
-// const button = document.querySelector("button");
+"use strict";
 
-// event listener
-// button.addEventListener("click", buttonClickHandler);
-// button.addEventListener("dblclick", function () {
-//   console.log("dbclick");
-// });
+const createTodoInputElement = document.querySelector("input#add-task");
+const createTodoButtonElement = document.querySelector("input#add-btn");
+const clearInputButtonElement = document.querySelector("input#del-btn");
+const todosWrapperElement = document.querySelector("div.new-tasks");
+const searchInput = document.querySelector("input#searchInput");
 
-// function buttonClickHandler() {
-//   console.log("click");
-// }
+const TODOS = [];
 
-// function buttonDbClickHandler() {
-//   console.log("dblclick");
-// }
+searchInput.addEventListener("keyup", search);
 
-const students = ["Student 1", "Student 2"];
+createTodoButtonElement.addEventListener("click", addTodo);
 
-const inputEl = document.querySelector("input");
-const buttonEl = document.querySelector("button");
-
-buttonEl.addEventListener("click", handleButtonClick);
-
-function handleButtonClick() {
-  const value = inputEl.value.trim();
-  if (!value) {
-    inputEl.value = "";
-    inputEl.focus();
-    return alert("Type student name");
+createTodoInputElement.addEventListener("keypress", (event) => {
+  if (event.keyCode === 13) {
+    addTodo();
   }
+});
 
-  students.push(value);
-  renderStudents();
-  inputEl.value = "";
-  inputEl.focus();
-}
+function renderTodos(array) {
+  todosWrapperElement.innerHTML = "";
+  if (array.length) {
+    document.querySelector("p#notFound").style.display = "none";
+    array.forEach((todo) => {
+      const newTodoElement = ` 
+    <div class="task">
+<input type="text" id="added-task" name='todo' disabled value="${todo}">
+        <div>
+            <input type="button" value="✔️" name='update' title='update task' class="update-task">
+            <input type="button" value="✏️" name='rename' title='rename task' class="rename-task">
+            <input type="button" value="❌" name='delete' title='delete task' class="del-task">
+        </div>
+    </div>
+    `;
 
-function renderStudents() {
-  const studentsList = document.querySelector("ul");
-  studentsList.innerHTML = "";
-
-  students.forEach((student) => {
-    studentsList.innerHTML += `<li>${student}</li>`;
-  });
-}
-
-renderStudents();
-
-// lamp
-
-let lampState = false;
-
-const turnBtn = document.querySelector("button.lamp_btn");
-const lampImg = document.querySelector("img");
-
-const lampStates = {
-  on: `./images/lamp_on.png`,
-  off: `./images/lamp_off.png`,
-};
-
-const turnBtnStates = {
-  on: "Yoqish",
-  off: "O'chirish",
-};
-
-turnBtn.addEventListener("click", changeLampState);
-
-function changeLampState() {
-  switch (lampState) {
-    case false:
-      lampState = true;
-      lampImg.src = lampStates.on;
-      turnBtn.textContent = turnBtnStates.off;
-      break;
-    case true:
-      lampState = false;
-      lampImg.src = lampStates.off;
-      turnBtn.textContent = turnBtnStates.on;
-      break;
-    default:
-      break;
+      todosWrapperElement.innerHTML += newTodoElement;
+    });
+  } else {
+    document.querySelector("p#notFound").style.display = "block";
   }
 }
 
-// background
-const colors = [
-  {
-    title: "Qizil",
-    color: "red",
-  },
-  {
-    title: "Yashil",
-    color: "green",
-  },
-  {
-    title: "Qora",
-    color: "black",
-  },
-  {
-    title: "Sariq",
-    color: "yellow",
-  },
-  {
-    title: "Ko'k",
-    color: "blue",
-  },
-];
+renderTodos(TODOS);
 
-const colorsWrapper = document.querySelector(".colors");
-const boxElement = document.querySelector(".box");
+function addTodo() {
+  const todo = createTodoInputElement.value.trim();
+  if (!todo) {
+    return;
+  }
 
-let activeColor = colors[0].color;
+  TODOS.unshift(todo);
 
-boxElement.style.backgroundColor = activeColor.color;
-
-function renderColors() {
-  colorsWrapper.innerHTML = "";
-  colors.forEach((color) => {
-    const coloredButton = document.createElement("button");
-    coloredButton.textContent = color.title;
-    coloredButton.classList.add("colored_button");
-
-    if (color.color === activeColor) {
-      coloredButton.style.color = "#fff";
-      coloredButton.style.backgroundColor = color.color;
-    } else {
-      coloredButton.style.color = color.color;
-    }
-
-    coloredButton.style.borderColor = color.color;
-
-    boxElement.style.backgroundColor = activeColor;
-
-    colorsWrapper.append(coloredButton);
-  });
-  document.querySelectorAll("button.colored_button").forEach((el) => {
-    el.addEventListener("click", handleColorChange);
-  });
+  renderTodos(TODOS);
 }
 
-renderColors();
+function search(event) {
+  const value = event.target.value;
 
-function handleColorChange(event) {
-  const color = event.target.style.borderColor;
-
-  activeColor = color;
-
-  renderColors();
+  renderTodos(TODOS.filter((todo) => todo.includes(value)));
 }

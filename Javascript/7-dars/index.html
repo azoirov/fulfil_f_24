@@ -4,40 +4,46 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JS DOM: Event</title>
-    <style>
-      .colored_button {
-        padding: 5px 15px;
-        font-size: 15px;
-        border-radius: 10px;
-        background-color: #fff;
-        outline: none;
-        border: 1px solid;
-        cursor: pointer;
-        display: block;
-        margin-top: 5px;
-      }
-    </style>
+    <title>ToDo App</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <input type="text" placeholder="Type Student Name" />
-    <button>Add</button>
+    <div class="container">
+      <h1>ADD TODO LIST</h1>
+      <div id="line"></div>
+      <input type="text" placeholder="search...." id="searchInput" />
+      <br />
+      <br />
+      <div class="task-input">
+        <input
+          type="text"
+          id="add-task"
+          name="todo"
+          placeholder="Add Task..."
+          value=""
+        />
+        <div class="flex-button">
+          <input
+            type="button"
+            value="➕"
+            name="add"
+            id="add-btn"
+            title="Add Task"
+          />
+          <input
+            type="button"
+            value="❌"
+            name="delete"
+            id="del-btn"
+            title="Remove All Task"
+          />
+        </div>
+      </div>
+      <p id="notFound" style="display: none">Noting found</p>
 
-    <ul></ul>
+      <div class="new-tasks"></div>
+    </div>
 
-    <img src="./images/lamp_off.png" width="200" height="200" alt="" />
-    <button class="lamp_btn">Yoqish</button>
-    <br />
-    <br />
-    <hr />
-    <br /><br />
-    <div
-      style="width: 200px; height: 50px; border: 1px solid black"
-      class="box"
-    ></div>
-    <br />
-    <div class="colors"></div>
-
-    <script src="./main.js"></script>
+    <script src="main.js"></script>
   </body>
 </html>
